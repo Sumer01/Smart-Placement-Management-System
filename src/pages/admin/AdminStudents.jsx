@@ -50,9 +50,12 @@ function AdminStudents() {
         skills: ""
     });
 
+    // Load students once when this page mounts.
+    // loadStudents is defined below and is intentionally not a dependency here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       loadStudents();
-    }, [loadStudents]);
+    }, []);
 
     const processStudentsList = (rawStudents) => {
         const enriched = rawStudents.map(student => {
