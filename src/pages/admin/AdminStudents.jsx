@@ -51,8 +51,8 @@ function AdminStudents() {
     });
 
     useEffect(() => {
-        loadStudents();
-    }, []);
+      loadStudents();
+    }, [loadStudents]);
 
     const processStudentsList = (rawStudents) => {
         const enriched = rawStudents.map(student => {
