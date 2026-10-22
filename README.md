@@ -24,7 +24,27 @@ The Smart Placement Management System (SPMS) provides a centralized platform for
 
 ## 📸 Application Screenshots
 
-Screenshots will be added here after uploading the images to the repository.
+
+## 📸 Application Screenshots
+
+### Landing Page
+![SPMS Landing Page](screenshots/landing-page.png)
+
+### Login Page
+![SPMS Login Page](screenshots/login-page.png)
+
+### Registration Page
+![SPMS Registration Page](screenshots/register-page.png)
+
+### Student Dashboard
+![SPMS Student Dashboard](screenshots/student-dashboard.png)
+
+### Connected Companies
+![SPMS Connected Companies](screenshots/connected-companies.png)
+
+### Placement Drives
+![SPMS Placement Drives](screenshots/placement-drives.png)
+
 
 ## ⚙️ Getting Started
 
