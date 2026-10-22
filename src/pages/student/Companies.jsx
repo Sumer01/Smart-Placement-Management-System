@@ -54,6 +54,9 @@ function Companies() {
         selectionProcess: ""
     });
 
+    // Load companies once when this page mounts.
+    // loadAllCompanies is defined below and is intentionally not a dependency here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         loadAllCompanies();
     }, []);
