@@ -22,8 +22,6 @@ The Smart Placement Management System (SPMS) provides a centralized platform for
 - **Backend:** Python, Flask
 - **Database:** Configure according to the database used by the backend
 
-## 📸 Application Screenshots
-
 
 ## 📸 Application Screenshots
 
@@ -33,8 +31,6 @@ The Smart Placement Management System (SPMS) provides a centralized platform for
 ### Login Page
 ![SPMS Login Page](screenshots/login-page.png)
 
-### Registration Page
-![SPMS Registration Page](screenshots/register-page.png)
 
 ### Student Dashboard
 ![SPMS Student Dashboard](screenshots/student-dashboard.png)
