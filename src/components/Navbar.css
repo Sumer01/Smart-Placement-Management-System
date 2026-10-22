@@ -1,0 +1,174 @@
+/* =========================================
+   SPMS NAVBAR
+========================================= */
+
+.navbar {
+    height: 70px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================================
+   NAVBAR LEFT
+========================================= */
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.navbar-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.navbar-logo-badge {
+    background-color: #101a29; /* Dark slate background so the white logo pops! */
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    height: 38px;
+}
+
+.navbar-logo-img {
+    height: 26px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.desktop-logo {
+    font-size: 19px;
+    font-weight: 700;
+    color: #173b32;
+    letter-spacing: -0.3px;
+}
+
+.mobile-logo {
+    display: none;
+    font-size: 19px;
+    font-weight: 700;
+    color: #173b32;
+}
+
+
+/* =========================================
+   MOBILE MENU BUTTON
+========================================= */
+
+.mobile-menu-btn {
+    display: none;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #173b32;
+    color: #ffffff;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   NAVBAR RIGHT
+========================================= */
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-btn {
+    border: none;
+    background: transparent;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-weight: 500;
+    color: #374151;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        height: 60px;
+        padding: 0 12px;
+    }
+
+    .navbar-left {
+        gap: 10px;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    .desktop-logo {
+        display: none;
+    }
+
+    .mobile-logo {
+        display: inline;
+    }
+
+    .navbar-logo {
+        font-size: 19px;
+        font-weight: 700;
+        color: #173b32;
+    }
+
+    .navbar-right {
+        gap: 10px;
+    }
+
+    .notification-btn {
+        font-size: 18px;
+    }
+
+    .profile {
+        font-size: 13px;
+        gap: 5px;
+    }
+}

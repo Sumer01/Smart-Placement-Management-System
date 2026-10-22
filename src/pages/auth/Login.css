@@ -1,0 +1,918 @@
+/* =========================================================
+   SPMS LOGIN PAGE
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #010d0c;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
+.login-page {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    position: relative;
+
+    overflow: hidden;
+
+    color: #ffffff;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background-color: #010d0c;
+
+    /*
+       IMPORTANT:
+       Move the background scene DOWN.
+    */
+    background-position: center calc(100% + 85px);
+
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.login-left {
+    width: 54%;
+    height: 100vh;
+
+    padding: 30px 30px 20px 80px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo-container {
+    width: auto;
+    position: relative;
+    z-index: 20;
+    margin-bottom: 20px;
+}
+
+.login-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.login-brand-link:hover {
+    opacity: 0.9;
+}
+
+.login-logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-logo {
+    height: 56px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.login-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-brand-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.login-brand-subtitle {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #10b981;
+    letter-spacing: 0.8px;
+}
+
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.left-content {
+    width: 100%;
+    max-width: 520px;
+
+    /*
+       Move text upward.
+    */
+    margin-top: 15px;
+
+    position: relative;
+
+    top: -20px;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   CAREER LABEL
+========================================================= */
+
+.career-label {
+    margin: 0 0 12px;
+
+    color: #00e887;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.main-heading {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 50px;
+
+    line-height: 1.02;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 750;
+}
+
+.main-heading span {
+    display: block;
+
+    color: #00e887;
+}
+
+.main-heading .green-period {
+    display: inline;
+
+    color: #00e887;
+}
+
+
+/* =========================================================
+   TAGLINE
+========================================================= */
+
+.tagline {
+    margin: 14px 0 18px;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    position: relative;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   FEATURE ITEM
+========================================================= */
+
+.feature-item {
+    width: 410px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    position: relative;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   FEATURE ICON
+========================================================= */
+
+.feature-icon {
+    width: 46px;
+    height: 46px;
+
+    min-width: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #00e887;
+
+    background:
+        rgba(0, 232, 135, 0.08);
+
+    border:
+        1px solid
+        rgba(0, 232, 135, 0.50);
+
+    box-shadow:
+        0 0 15px
+        rgba(0, 232, 135, 0.08);
+}
+
+
+/* =========================================================
+   FEATURE TEXT
+========================================================= */
+
+.feature-text h3 {
+    margin: 0 0 2px;
+
+    color: #00e887;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+.feature-text p {
+    margin: 0;
+
+    color: #c0cfcc;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.login-right {
+    width: 46%;
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        25px
+        75px
+        25px
+        20px;
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.login-card {
+    width: 100%;
+
+    max-width: 535px;
+
+    padding:
+        36px
+        42px
+        29px;
+
+    border-radius: 24px;
+
+    background:
+        rgba(2, 18, 17, 0.92);
+
+    border:
+        1px solid
+        rgba(0, 232, 135, 0.65);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0, 0, 0, 0.45);
+
+    backdrop-filter: blur(16px);
+}
+
+
+/* =========================================================
+   LOGIN HEADER
+========================================================= */
+
+.login-header {
+    text-align: center;
+
+    margin-bottom: 27px;
+}
+
+.login-lock {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 17px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #00e887;
+
+    border:
+        1px solid
+        rgba(0, 232, 135, 0.70);
+
+    background:
+        rgba(0, 232, 135, 0.04);
+}
+
+.login-header h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 31px;
+
+    font-weight: 700;
+}
+
+.login-header p {
+    margin: 7px 0 0;
+
+    color: #8fa09d;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #e8efed;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   INPUT BOX
+========================================================= */
+
+.input-box {
+    width: 100%;
+    height: 52px;
+
+    position: relative;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    height: 100%;
+
+    padding: 0 48px;
+
+    border:
+        1px solid
+        rgba(0, 232, 135, 0.42);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background:
+        rgba(0, 12, 12, 0.75);
+
+    color: #ffffff;
+
+    font-size: 14px;
+}
+
+.input-box input::placeholder {
+    color: #637471;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    border-color: #00e887;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(0, 232, 135, 0.07);
+}
+
+
+/* =========================================================
+   INPUT ICON
+========================================================= */
+
+.input-left-icon {
+    position: absolute;
+
+    left: 16px;
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    color: #00e887;
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.input-box select {
+    appearance: none;
+
+    cursor: pointer;
+}
+
+.input-box select option {
+    background: #071515;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   PASSWORD EYE
+========================================================= */
+
+.eye-button {
+    position: absolute;
+
+    right: 14px;
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background: transparent;
+
+    color: #00e887;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   LOGIN OPTIONS
+========================================================= */
+
+.login-options {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin:
+        4px
+        0
+        22px;
+}
+
+.remember-me {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #bac7c4;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.remember-me input {
+    width: 17px;
+    height: 17px;
+
+    accent-color: #00e887;
+}
+
+.forgot-password {
+    border: none;
+
+    background: transparent;
+
+    color: #00e887;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-button {
+    width: 100%;
+    height: 54px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 13px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00e887 0%,
+            #00d990 45%,
+            #05aeca 100%
+        );
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 232, 135, 0.14);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.login-button:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 232, 135, 0.23);
+}
+
+
+/* =========================================================
+   OR DIVIDER
+========================================================= */
+
+.or-divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin:
+        25px
+        0
+        21px;
+}
+
+.or-divider span {
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+}
+
+.or-divider div {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(0, 232, 135, 0.35);
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+.register-text {
+    text-align: center;
+
+    color: #bdc9c6;
+
+    font-size: 14px;
+}
+
+.register-text a {
+    margin-left: 5px;
+
+    color: #00e887;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   REMOVE OLD SCENE + FOOTER
+========================================================= */
+
+.placement-scene {
+    display: none !important;
+}
+
+.left-footer {
+    display: none !important;
+}
+
+
+/* =========================================================
+   LARGE SCREEN
+========================================================= */
+
+@media (min-width: 1500px) {
+
+    .login-page {
+        background-position:
+            center calc(100% + 100px);
+    }
+
+    .left-content {
+        top: -35px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1200px) and (min-width: 801px) {
+
+    .login-left {
+        padding-left: 45px;
+    }
+
+    .logo-container,
+    .spms-logo {
+        width: 220px;
+    }
+
+    .main-heading {
+        font-size: 45px;
+    }
+
+    .feature-item {
+        width: 370px;
+    }
+
+    .login-right {
+        padding-right: 35px;
+    }
+
+    .login-page {
+        background-position:
+            center calc(100% + 60px);
+    }
+
+    .left-content {
+        top: -25px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .login-page {
+        height: auto;
+
+        min-height: 100vh;
+
+        flex-direction: column;
+
+        overflow-y: auto;
+
+        background-position:
+            center bottom;
+    }
+
+    .login-left {
+        width: 100%;
+
+        height: 700px;
+
+        min-height: 700px;
+
+        padding:
+            30px
+            25px
+            0;
+    }
+
+    .logo-container,
+    .spms-logo {
+        width: 200px;
+    }
+
+    .left-content {
+        margin-top: 25px;
+
+        top: 0;
+    }
+
+    .main-heading {
+        font-size: 42px;
+    }
+
+    .feature-item {
+        width: 100%;
+    }
+
+    .login-right {
+        width: 100%;
+
+        height: auto;
+
+        min-height: auto;
+
+        padding:
+            25px
+            20px
+            45px;
+    }
+
+    .login-card {
+        max-width: 550px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .login-left {
+        height: 650px;
+
+        min-height: 650px;
+
+        padding:
+            25px
+            18px
+            0;
+    }
+
+    .logo-container,
+    .spms-logo {
+        width: 175px;
+    }
+
+    .career-label {
+        font-size: 9px;
+
+        letter-spacing: 1px;
+    }
+
+    .main-heading {
+        font-size: 36px;
+    }
+
+    .feature-icon {
+        width: 43px;
+        height: 43px;
+
+        min-width: 43px;
+    }
+
+    .feature-text h3 {
+        font-size: 14px;
+    }
+
+    .feature-text p {
+        font-size: 10px;
+    }
+
+    .login-card {
+        padding:
+            27px
+            20px;
+    }
+}

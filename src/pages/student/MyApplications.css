@@ -1,0 +1,815 @@
+/* =============================================
+   MY APPLICATIONS — Professional UI v3
+   Font: Inter
+============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.applications-page {
+    min-height: 100vh;
+    padding: 36px 40px;
+    background: #f4f6f9;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1a2332;
+}
+
+
+/* =============================================
+   HEADER
+============================================= */
+
+.applications-header {
+    margin-bottom: 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.applications-header h1 {
+    margin: 0 0 5px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.4px;
+}
+
+.applications-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* =============================================
+   STAT CARDS
+============================================= */
+
+.application-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.application-stat-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 20px;
+    background: #fff;
+    border: 1px solid #eaecf0;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.03);
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.application-stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent, #6366f1);
+    border-radius: 16px 16px 0 0;
+}
+
+.application-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+}
+
+.stat-icon-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--bg, #f0f0ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.stat-text small {
+    display: block;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.stat-text strong {
+    display: block;
+    color: #0f172a;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+
+/* =============================================
+   SEARCH & FILTER
+============================================= */
+
+.applications-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.application-search {
+    flex: 1;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.application-search:focus-within {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+.application-search svg { flex-shrink: 0; }
+
+.application-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #0f172a;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.application-search input::placeholder { color: #9ca3af; }
+
+.search-clear {
+    border: none;
+    background: none;
+    color: #9ca3af;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    line-height: 1;
+    font-family: inherit;
+}
+
+.search-clear:hover { color: #ef4444; background: #fef2f2; }
+
+.application-filter {
+    width: 185px;
+    height: 44px;
+    padding: 0 36px 0 14px;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+    transition: border-color .2s;
+}
+
+.application-filter:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+
+/* =============================================
+   LIST WRAPPER
+============================================= */
+
+.applications-list-card {
+    background: #fff;
+    border: 1px solid #eaecf0;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.03);
+    overflow: hidden;
+}
+
+.applications-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafbfc;
+}
+
+.applications-list-header h2 {
+    margin: 0 0 3px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.applications-list-header p {
+    margin: 0;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.app-count-pill {
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: #f0f0ff;
+    color: #4f46e5;
+    border: 1px solid #e0e7ff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.applications-list-body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =============================================
+   APPLICATION CARD
+============================================= */
+
+.app-card {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background .15s ease;
+    position: relative;
+}
+
+.app-card:last-child { border-bottom: none; }
+.app-card:hover { background: #fafbff; }
+
+/* Left accent bar */
+.app-card::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 4px;
+    background: transparent;
+    border-radius: 0;
+    transition: background .2s;
+}
+
+/* Normal active card accent */
+.app-card:hover::before { background: #e2e8f0; }
+
+/* Offer card */
+.app-card.card--offer {
+    background: linear-gradient(180deg, #f0fdf4 0%, #fff 60%);
+}
+
+.app-card.card--offer::before { background: #10b981; }
+
+/* Rejected card */
+.app-card.card--rejected {
+    background: linear-gradient(180deg, #fff8f8 0%, #fff 50%);
+}
+
+.app-card.card--rejected::before { background: #fca5a5; }
+
+
+/* =============================================
+   OFFER BANNER
+============================================= */
+
+.app-card-offer-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 28px;
+    margin-top: 16px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border: 1px solid #a7f3d0;
+    border-radius: 10px;
+    color: #065f46;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.app-card-offer-banner strong { font-weight: 700; }
+
+
+/* =============================================
+   TOP INFO ROW
+============================================= */
+
+.app-card-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 28px 16px;
+}
+
+/* Company */
+.app-card-company {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 210px;
+    flex-shrink: 0;
+}
+
+.app-card-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1e3a5f 0%, #173b32 100%);
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(23,59,50,0.2);
+}
+
+.logo--rejected {
+    background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+    box-shadow: 0 4px 12px rgba(107,114,128,0.2) !important;
+    opacity: 0.75;
+}
+
+.logo--offer {
+    background: linear-gradient(135deg, #059669, #10b981) !important;
+    box-shadow: 0 4px 16px rgba(16,185,129,0.3) !important;
+}
+
+.app-card-name {
+    margin: 0 0 3px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.card--rejected .app-card-name { color: #6b7280; }
+
+.app-card-role {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Meta chips */
+.app-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex: 1;
+}
+
+.app-card-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.app-chip-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.app-chip-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.card--rejected .app-chip-value { color: #6b7280; }
+
+.app-chip-resume {
+    display: inline-block;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    max-width: 155px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid #a7f3d0;
+}
+
+/* Actions */
+.app-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+
+/* =============================================
+   STATUS BADGES
+============================================= */
+
+.app-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.app-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.s-applied      { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+.s-applied      .app-status-dot { background: #0ea5e9; }
+
+.s-review       { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+.s-review       .app-status-dot { background: #f59e0b; animation: blink 1.4s infinite; }
+
+.s-shortlisted  { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.s-shortlisted  .app-status-dot { background: #10b981; }
+
+.s-interview    { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.s-interview    .app-status-dot { background: #3b82f6; animation: blink 1.4s infinite; }
+
+.s-selected     { background: linear-gradient(135deg,#ecfdf5,#d1fae5); color: #064e3b; border: 1px solid #6ee7b7; font-weight: 700; }
+.s-selected     .app-status-dot { background: #059669; }
+
+.s-rejected     { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.s-rejected     .app-status-dot { background: #ef4444; }
+
+@keyframes blink {
+    0%,100% { opacity:1; }
+    50%      { opacity:.3; }
+}
+
+
+/* =============================================
+   VIEW BUTTON
+============================================= */
+
+.app-view-btn {
+    padding: 8px 20px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 9px;
+    background: #fff;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .18s ease;
+    white-space: nowrap;
+}
+
+.app-view-btn:hover {
+    background: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+}
+
+
+/* =============================================
+   CARD DIVIDER
+============================================= */
+
+.app-card-divider {
+    margin: 0 28px;
+    height: 1px;
+    background: #f1f5f9;
+}
+
+.card--rejected .app-card-divider { background: #fee2e2; }
+.card--offer    .app-card-divider { background: #a7f3d0; }
+
+
+/* =============================================
+   BOTTOM: TIMELINE ROW
+============================================= */
+
+.app-card-bottom {
+    padding: 16px 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* The timeline strip */
+.apc-timeline {
+    display: flex;
+    align-items: flex-start;
+    padding: 14px 20px;
+    background: #f8fafc;
+    border: 1px solid #e8edf3;
+    border-radius: 12px;
+    overflow-x: auto;
+    gap: 0;
+}
+
+.apc-timeline--rejected {
+    background: #fef8f8;
+    border-color: #fde8e8;
+}
+
+/* Connector line */
+.apc-connector {
+    flex: 1;
+    height: 2px;
+    min-width: 24px;
+    background: #e2e8f0;
+    margin-top: 14px;           /* align to dot center (dot = 28px, so 14px) */
+    border-radius: 2px;
+}
+
+.apc-connector--done  { background: linear-gradient(90deg, #10b981, #059669); }
+.apc-connector--faded { background: #f0d0d0; }
+
+/* Step node */
+.apc-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 76px;
+    flex-shrink: 0;
+}
+
+/* Dot */
+.apc-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #e2e8f0;
+    background: #fff;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+}
+
+/* Done */
+.apc-node--done .apc-dot {
+    background: #10b981;
+    border-color: #10b981;
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.15);
+}
+
+/* Active / current */
+.apc-node--active .apc-dot {
+    background: #fff;
+    border: 2.5px solid #3b82f6;
+    color: #3b82f6;
+    box-shadow: 0 0 0 5px rgba(59,130,246,0.15);
+}
+
+/* Faded (rejected state — all gray) */
+.apc-node--faded .apc-dot {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    color: #d1d5db;
+}
+
+/* Rejected end node X */
+.apc-node--rejected-end .apc-dot,
+.apc-dot--x {
+    background: #fef2f2 !important;
+    border-color: #fca5a5 !important;
+    color: #ef4444 !important;
+    font-size: 10px;
+    box-shadow: 0 0 0 4px rgba(239,68,68,0.12) !important;
+}
+
+/* Labels */
+.apc-node-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #cbd5e1;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.apc-node--done  .apc-node-label { color: #059669; font-weight: 600; }
+.apc-node--active .apc-node-label { color: #1d4ed8; font-weight: 700; }
+.apc-node--faded  .apc-node-label { color: #d1d5db; }
+
+
+/* =============================================
+   REJECTED NOTE
+============================================= */
+
+.app-rejected-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.app-rejected-note-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.app-rejected-note > span:last-of-type {
+    flex: 1;
+    font-size: 13px;
+    color: #7f1d1d;
+    min-width: 160px;
+}
+
+.app-rejected-cta {
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #fca5a5;
+    background: #fff;
+    color: #b91c1c;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .18s ease;
+    flex-shrink: 0;
+}
+
+.app-rejected-cta:hover {
+    background: #b91c1c;
+    color: #fff;
+    border-color: #b91c1c;
+}
+
+
+/* =============================================
+   EMPTY STATE
+============================================= */
+
+.app-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 64px 20px;
+    text-align: center;
+}
+
+.app-empty-icon {
+    width: 72px;
+    height: 72px;
+    background: #f0f9ff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    margin-bottom: 18px;
+    border: 1px solid #e0f2fe;
+}
+
+.app-empty-state h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.app-empty-state p {
+    margin: 0 0 22px;
+    color: #64748b;
+    font-size: 14px;
+    max-width: 380px;
+    line-height: 1.65;
+}
+
+.app-empty-btn {
+    background: #0f172a;
+    color: #fff;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: inherit;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.app-empty-btn:hover {
+    background: #1e3a5f;
+    transform: translateY(-1px);
+}
+
+
+/* =============================================
+   RESPONSIVE — TABLET
+============================================= */
+
+@media (max-width: 1100px) {
+    .applications-page   { padding: 24px 20px; }
+    .application-stats   { grid-template-columns: repeat(2, 1fr); }
+    .app-card-meta       { gap: 18px; flex-wrap: wrap; }
+    .app-card-company    { min-width: 180px; }
+}
+
+
+/* =============================================
+   RESPONSIVE — MOBILE
+============================================= */
+
+@media (max-width: 700px) {
+    .applications-page  { padding: 18px 14px; }
+
+    .application-stats  { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+
+    .application-stat-card { padding: 16px 14px; gap: 12px; border-radius: 14px; }
+    .stat-icon-wrap  { width: 42px; height: 42px; font-size: 20px; border-radius: 11px; }
+    .stat-text small { font-size: 10px; }
+    .stat-text strong{ font-size: 24px; }
+
+    .applications-tools  { flex-direction: column; align-items: stretch; gap: 10px; }
+    .application-search  { height: 42px; }
+    .application-filter  { width: 100%; height: 42px; }
+
+    .applications-list-header { padding: 16px 18px; }
+    .applications-list-header h2 { font-size: 15px; }
+
+    .app-card-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 18px 18px 14px;
+    }
+
+    .app-card-company { min-width: unset; width: 100%; }
+
+    .app-card-meta {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .app-card-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .app-view-btn { flex: 1; text-align: center; }
+
+    .app-card-divider { margin: 0 18px; }
+    .app-card-bottom  { padding: 14px 18px 18px; }
+
+    .app-card-offer-banner { margin: 14px 18px 0; font-size: 12px; }
+
+    .apc-timeline { padding: 12px 14px; }
+    .apc-node     { min-width: 58px; }
+    .apc-dot      { width: 24px; height: 24px; font-size: 10px; }
+    .apc-connector{ margin-top: 11px; }
+    .apc-node-label { font-size: 10px; }
+
+    .app-rejected-note > span:last-of-type { font-size: 12px; }
+    .app-rejected-cta { font-size: 11px; padding: 6px 12px; }
+}
+
+
+/* =============================================
+   SMALL PHONES
+============================================= */
+
+@media (max-width: 400px) {
+    .applications-page  { padding: 14px 12px; }
+    .application-stats  { gap: 8px; }
+    .application-stat-card { padding: 12px; }
+    .stat-text strong   { font-size: 22px; }
+    .app-card-meta      { grid-template-columns: 1fr; gap: 10px; }
+}
