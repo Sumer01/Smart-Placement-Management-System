@@ -1,149 +1,92 @@
-# 🎓 Smart Placement Management System (SPMS)
+# Smart Placement Management System (SPMS)
 
-A web-based **Student Placement Management System** designed to streamline campus recruitment activities by connecting students and placement administrators through a centralized platform.
+A web-based placement portal designed to help students explore campus recruitment opportunities and manage placement-related activities through a centralized interface.
 
-SPMS aims to simplify placement management, student profile management, job opportunities, and application tracking through an intuitive web interface.
+## Overview
 
-## 📌 Table of Contents
+The project includes a React-based frontend and a Python Flask backend. It provides interfaces for student accounts, profiles, connected companies, placement drives, and application tracking. Database configuration depends on the backend setup.
 
-- [Overview](#-overview)
-- [Key Features](#-key-features)
-- [Technology Stack](#-technology-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Environment Configuration](#-environment-configuration)
-- [Running the Application](#-running-the-application)
-- [Future Enhancements](#-future-enhancements)
-- [Author](#-author)
+## Screenshots
 
-## 🚀 Overview
+### Landing Page
+Introduces the placement portal and highlights its main capabilities.
 
-The Smart Placement Management System provides a centralized platform for managing student placement activities. It is intended to reduce manual work, organize recruitment information, and make placement-related processes easier to manage.
+![SPMS landing page](screenshots/landing-page.png)
 
-The project includes a React-based frontend and a Python Flask backend, with database integration configured according to the project's environment.
+### Login Page
+The sign-in interface for portal users.
 
-## ✨ Key Features
+![SPMS login page](screenshots/login-page.png)
 
-- **Student Management:** Maintain student profiles and placement-related information.
-- **Placement Opportunities:** View available companies and job opportunities.
-- **Application Tracking:** Manage and track student job applications.
-- **Admin Dashboard:** Support placement administration and student management.
-- **Authentication:** Provide login and registration interfaces.
-- **Resume Management:** Support resume-related functionality.
-- **Responsive Interface:** Organize placement information through a user-friendly web interface.
+### Student Dashboard
+A summary of placement readiness, applications, connected companies, and upcoming drives.
 
-*Feature availability depends on the current implementation of the application.*
+![SPMS student dashboard](screenshots/student-dashboard.png)
 
-## 🛠️ Technology Stack
+### Connected Companies
+A searchable view of companies and their hiring status.
 
-| Technology | Purpose |
-|---|---|
-| React.js | Frontend user interface |
-| JavaScript | Client-side functionality |
-| HTML5 | Web page structure |
-| CSS3 | Styling and responsive layouts |
-| Python | Backend programming |
-| Flask | Backend framework and API development |
-| Database | As configured in the project |
+![SPMS connected companies](screenshots/connected-companies.png)
 
-## 📁 Project Structure
+### Placement Drives
+Displays opportunities, job roles, eligibility information, locations, and application actions.
 
-```text
-Smart-Placement-Management-System/
-├── SPMS_Frontend/
-│   ├── public/
-│   ├── src/
-│   ├── package.json
-│   └── package-lock.json
-├── SPMS_Backend/
-│   ├── app/
-│   ├── run.py
-│   └── requirements.txt
-├── .gitignore
-└── README.md
-```
+![SPMS placement drives](screenshots/placement-drives.png)
 
-## ⚙️ Getting Started
+## Key Features
+
+- Student login and registration interfaces
+- Student profile and academic information views
+- Connected company listings and hiring status
+- Placement drive discovery and eligibility details
+- Application status and history interface
+- Placement administration interfaces
+
+*Feature availability depends on the current implementation and backend configuration.*
+
+## Technology Stack
+
+- **Frontend:** React.js, JavaScript, HTML, CSS
+- **Backend:** Python, Flask
+- **Database:** Use the database configured in the backend; confirm the project configuration before documenting a specific database engine.
+
+## Getting Started
 
 ### Prerequisites
 
-Install the following before running the project:
-
 - Node.js and npm
-- Python 3
-- pip
-- A database configured for the backend
+- Python 3 and pip
+- The database service/configuration required by the backend
 
-### 1. Clone the Repository
+### Frontend
 
-```bash
-git clone https://github.com/Sumer01/Smart-Placement-Management-System.git
-cd Smart-Placement-Management-System
-```
-
-### 2. Set Up the Frontend
-
-Open a terminal in the frontend directory:
+From the frontend project directory, install dependencies and start the development server:
 
 ```bash
-cd SPMS_Frontend
 npm install
 npm start
 ```
 
-The React development server typically runs at:
+### Backend
 
-`http://localhost:3000`
-
-### 3. Set Up the Backend
-
-Open another terminal in the backend directory:
+From the backend project directory, create and activate a virtual environment, install dependencies, configure environment variables, and run the application's entry point. For example, if `run.py` is the configured entry point:
 
 ```bash
-cd SPMS_Backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
-
-Configure the required environment variables, then start the Flask application using the project's configured entry point:
-
-```bash
 python run.py
 ```
 
-The backend address and port depend on the application configuration.
+Adjust commands to match the actual folder layout and configuration in this repository. Never commit `.env` files, credentials, API keys, or real student data.
 
-## 🔐 Environment Configuration
-
-For security, credentials and secret keys must not be committed to GitHub.
-
-- Store sensitive configuration in a local `.env` file if supported by the application.
-- Keep `.env` excluded using `.gitignore`.
-- Provide an `.env.example` file containing placeholder values when setup documentation requires it.
-- Configure database connection details locally before running the backend.
-
-Never publish real passwords, API keys, database credentials, or private student information.
-
-## 🔮 Future Enhancements
-
-- Advanced placement analytics and reporting
-- Email notifications for placement updates
-- Improved search and filtering for opportunities
-- Enhanced role-based access control
-- Deployment to a cloud hosting platform
-
-## 👨‍💻 Author
+## Author
 
 **Sumer Raj**
-
-MCA Student | Aspiring Software Developer
 
 - GitHub: [@Sumer01](https://github.com/Sumer01)
 - LinkedIn: [Sumer Raj](https://linkedin.com/in/sumerraj01)
 
 ---
 
-⭐ If you find this project interesting, consider giving the repository a star.
-
-*Developed as an academic project to explore modern web development and placement management workflows.*
+*Academic project focused on streamlining campus placement workflows.*
