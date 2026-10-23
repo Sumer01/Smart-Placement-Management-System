@@ -49,7 +49,7 @@ def apply_for_job():
 
         # Check student profile
         student = extensions.db.students.find_one({
-            "user_id": user_id
+            "user_id": ObjectId(user_id)
         })
 
         if not student:
