@@ -59,8 +59,8 @@ def apply_for_job():
 
         # Check duplicate application
         existing_application = extensions.db.applications.find_one({
-            "user_id": user_id,
-            "job_id": job_id
+            "user_id": ObjectId(user_id),
+            "job_id": ObjectId(job_id)
         })
 
         if existing_application:
@@ -158,7 +158,7 @@ def get_my_applications():
 
         applications = list(
             extensions.db.applications.find({
-                "user_id": user_id
+                "user_id": ObjectId(user_id)
             }).sort(
                 "applied_at",
                 -1
@@ -195,7 +195,7 @@ def get_application(application_id):
 
         application = extensions.db.applications.find_one({
             "_id": ObjectId(application_id),
-            "user_id": user_id
+            "user_id": ObjectId(user_id)
         })
 
         if not application:
@@ -232,7 +232,7 @@ def delete_application(application_id):
 
         result = extensions.db.applications.delete_one({
             "_id": ObjectId(application_id),
-            "user_id": user_id
+            "user_id": ObjectId(user_id)
         })
 
         if result.deleted_count == 0:
