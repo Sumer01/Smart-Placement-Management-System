@@ -6,12 +6,11 @@ from app import extensions
 
 def create_user(user_data):
     email = user_data["email"].strip().lower()
+    role = user_data.get("role", "student").strip().lower()
 
     existing_user = extensions.db.users.find_one({"email": email})
     if existing_user:
         return None
-
-    role = user_data.get("role", "student").strip().lower()
 
     user = {
         "name": user_data["name"].strip(),
@@ -25,22 +24,27 @@ def create_user(user_data):
     user_id = result.inserted_id
 
     if role == "student":
-        try:
-            extensions.db.students.insert_one({
-                "user_id": user_id,
-                "name": user["name"],
-                "email": email,
-                "degree": "MCA",
-                "department": "Computer Applications",
-                "college": "CUSAT",
-                "cgpa": 8.50,
-                "backlogs": 0,
-                "placement_status": "Not Placed",
-                "verified": 1,
-                "is_registered": 1
-            })
-        except Exception as e:
-            print(f"[WARNING] Student profile creation failed: {e}")
+        extensions.db.students.insert_one({
+            "user_id": user_id,
+            "name": user["name"],
+            "roll_no": None,
+            "phone": "",
+            "gender": "",
+            "location": "",
+            "degree": "MCA",
+            "course": "MCA",
+            "department": "Computer Applications",
+            "college": "CUSAT",
+            "semester": "",
+            "cgpa": 0.0,
+            "backlogs": 0,
+            "skills": [],
+            "resume_name": "",
+            "resume_url": "",
+            "placement_status": "Not Placed",
+            "verified": 1,
+            "is_registered": 1
+        })
 
     return result
 
