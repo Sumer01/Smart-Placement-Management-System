@@ -302,7 +302,7 @@ def check_eligibility(job_id):
             }, 404
 
         student = extensions.db.students.find_one({
-            "user_id": user_id
+            "user_id": ObjectId(user_id)
         })
 
         if not student:
