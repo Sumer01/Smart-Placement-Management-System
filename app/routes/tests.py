@@ -1,10 +1,10 @@
+
+from bson import ObjectId
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from bson import ObjectId
 
 from app.models.test import create_test, create_test_result
 from app import extensions
-
 
 tests_bp = Blueprint("tests", __name__)
 
@@ -13,19 +13,20 @@ tests_bp = Blueprint("tests", __name__)
 # ADMIN CHECK
 # =========================
 def check_admin():
-    user_id = get_jwt_identity()
+    try:
+        user_id = get_jwt_identity()
 
-    if not ObjectId.is_valid(user_id):
+        if not user_id or not ObjectId.is_valid(user_id):
+            return False
+
+        user = extensions.db.users.find_one({
+            "_id": ObjectId(user_id)
+        })
+
+        return bool(user and user.get("role") == "admin")
+
+    except Exception:
         return False
-
-    user = extensions.db.users.find_one({
-        "_id": ObjectId(user_id)
-    })
-
-    if not user:
-        return False
-
-    return user.get("role") == "admin"
 
 
 # =========================
@@ -37,30 +38,18 @@ def check_admin():
 def add_test():
     try:
         if not check_admin():
-            return {
-                "error": "Admin access required"
-            }, 403
+            return {"error": "Admin access required"}, 403
 
-        data = request.get_json()
-
-        if not data:
-            return {
-                "error": "Request body is required"
-            }, 400
+        data = request.get_json(silent=True) or {}
 
         title = data.get("title", "").strip()
-
-        if not title:
-            return {
-                "error": "Test title is required"
-            }, 400
-
         questions = data.get("questions", [])
 
-        if not isinstance(questions, list) or len(questions) == 0:
-            return {
-                "error": "At least one question is required"
-            }, 400
+        if not title:
+            return {"error": "Test title is required"}, 400
+
+        if not isinstance(questions, list) or not questions:
+            return {"error": "At least one question is required"}, 400
 
         test_data = {
             "title": title,
@@ -76,10 +65,8 @@ def add_test():
             "test_id": str(result.inserted_id)
         }, 201
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to create mock test"}, 500
 
 
 # =========================
@@ -91,16 +78,13 @@ def add_test():
 def get_tests():
     try:
         tests = list(
-            extensions.db.tests.find().sort(
-                "created_at",
-                -1
-            )
+            extensions.db.tests.find().sort("created_at", -1)
         )
 
         for test in tests:
             test["_id"] = str(test["_id"])
 
-            # Hide correct answers
+            # Do not expose correct answers to students.
             for question in test.get("questions", []):
                 question.pop("answer", None)
 
@@ -109,15 +93,12 @@ def get_tests():
             "tests": tests
         }, 200
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to fetch mock tests"}, 500
 
 
 # =========================
 # GET MY TEST RESULTS
-# MUST COME BEFORE /<test_id>
 # =========================
 @tests_bp.route("/results/my", methods=["GET"])
 @jwt_required()
@@ -125,54 +106,52 @@ def get_my_results():
     try:
         user_id = get_jwt_identity()
 
+        if not user_id or not ObjectId.is_valid(user_id):
+            return {"error": "Invalid user ID"}, 400
+
         results = list(
             extensions.db.test_results.find({
-                "user_id": user_id
-            }).sort(
-                "submitted_at",
-                -1
-            )
+                "user_id": ObjectId(user_id)
+            }).sort("submitted_at", -1)
         )
 
         for result in results:
             result["_id"] = str(result["_id"])
+
+            if isinstance(result.get("user_id"), ObjectId):
+                result["user_id"] = str(result["user_id"])
+
+            if isinstance(result.get("test_id"), ObjectId):
+                result["test_id"] = str(result["test_id"])
 
         return {
             "message": "Test results fetched successfully",
             "results": results
         }, 200
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to fetch test results"}, 500
 
 
 # =========================
 # GET SINGLE MOCK TEST
-# STUDENT + ADMIN
 # =========================
 @tests_bp.route("/<test_id>", methods=["GET"])
 @jwt_required()
 def get_test(test_id):
     try:
         if not ObjectId.is_valid(test_id):
-            return {
-                "error": "Invalid test ID"
-            }, 400
+            return {"error": "Invalid test ID"}, 400
 
         test = extensions.db.tests.find_one({
             "_id": ObjectId(test_id)
         })
 
         if not test:
-            return {
-                "error": "Test not found"
-            }, 404
+            return {"error": "Test not found"}, 404
 
         test["_id"] = str(test["_id"])
 
-        # Hide correct answers
         for question in test.get("questions", []):
             question.pop("answer", None)
 
@@ -181,10 +160,8 @@ def get_test(test_id):
             "test": test
         }, 200
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to fetch mock test"}, 500
 
 
 # =========================
@@ -196,68 +173,45 @@ def get_test(test_id):
 def update_test(test_id):
     try:
         if not check_admin():
-            return {
-                "error": "Admin access required"
-            }, 403
+            return {"error": "Admin access required"}, 403
 
         if not ObjectId.is_valid(test_id):
-            return {
-                "error": "Invalid test ID"
-            }, 400
+            return {"error": "Invalid test ID"}, 400
 
-        data = request.get_json()
-
-        if not data:
-            return {
-                "error": "Request body is required"
-            }, 400
+        data = request.get_json(silent=True) or {}
 
         existing_test = extensions.db.tests.find_one({
             "_id": ObjectId(test_id)
         })
 
         if not existing_test:
-            return {
-                "error": "Test not found"
-            }, 404
+            return {"error": "Test not found"}, 404
 
-        title = data.get(
-            "title",
-            existing_test.get("title", "")
-        )
-
+        title = data.get("title", existing_test.get("title", ""))
         description = data.get(
             "description",
             existing_test.get("description", "")
         )
-
         duration = data.get(
             "duration",
             existing_test.get("duration", 30)
         )
-
         questions = data.get(
             "questions",
             existing_test.get("questions", [])
         )
 
-        if not str(title).strip():
-            return {
-                "error": "Test title is required"
-            }, 400
+        if not isinstance(title, str) or not title.strip():
+            return {"error": "Test title is required"}, 400
 
-        if not isinstance(questions, list) or len(questions) == 0:
-            return {
-                "error": "At least one question is required"
-            }, 400
+        if not isinstance(questions, list) or not questions:
+            return {"error": "At least one question is required"}, 400
 
         extensions.db.tests.update_one(
-            {
-                "_id": ObjectId(test_id)
-            },
+            {"_id": ObjectId(test_id)},
             {
                 "$set": {
-                    "title": title,
+                    "title": title.strip(),
                     "description": description,
                     "duration": duration,
                     "questions": questions
@@ -265,14 +219,10 @@ def update_test(test_id):
             }
         )
 
-        return {
-            "message": "Mock test updated successfully"
-        }, 200
+        return {"message": "Mock test updated successfully"}, 200
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to update mock test"}, 500
 
 
 # =========================
@@ -284,32 +234,22 @@ def update_test(test_id):
 def delete_test(test_id):
     try:
         if not check_admin():
-            return {
-                "error": "Admin access required"
-            }, 403
+            return {"error": "Admin access required"}, 403
 
         if not ObjectId.is_valid(test_id):
-            return {
-                "error": "Invalid test ID"
-            }, 400
+            return {"error": "Invalid test ID"}, 400
 
         result = extensions.db.tests.delete_one({
             "_id": ObjectId(test_id)
         })
 
         if result.deleted_count == 0:
-            return {
-                "error": "Test not found"
-            }, 404
+            return {"error": "Test not found"}, 404
 
-        return {
-            "message": "Mock test deleted successfully"
-        }, 200
+        return {"message": "Mock test deleted successfully"}, 200
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to delete mock test"}, 500
 
 
 # =========================
@@ -321,32 +261,20 @@ def delete_test(test_id):
 def submit_test(test_id):
     try:
         if not ObjectId.is_valid(test_id):
-            return {
-                "error": "Invalid test ID"
-            }, 400
+            return {"error": "Invalid test ID"}, 400
 
-        data = request.get_json()
-
-        if not data:
-            return {
-                "error": "Request body is required"
-            }, 400
-
+        data = request.get_json(silent=True) or {}
         answers = data.get("answers", [])
 
         if not isinstance(answers, list):
-            return {
-                "error": "Answers must be a list"
-            }, 400
+            return {"error": "Answers must be a list"}, 400
 
         test = extensions.db.tests.find_one({
             "_id": ObjectId(test_id)
         })
 
         if not test:
-            return {
-                "error": "Test not found"
-            }, 404
+            return {"error": "Test not found"}, 404
 
         questions = test.get("questions", [])
 
@@ -371,9 +299,12 @@ def submit_test(test_id):
 
         user_id = get_jwt_identity()
 
+        if not user_id or not ObjectId.is_valid(user_id):
+            return {"error": "Invalid user ID"}, 400
+
         result = create_test_result({
-            "user_id": user_id,
-            "test_id": test_id,
+            "user_id": ObjectId(user_id),
+            "test_id": ObjectId(test_id),
             "answers": answers,
             "score": score,
             "total_questions": len(questions)
@@ -386,7 +317,5 @@ def submit_test(test_id):
             "total_questions": len(questions)
         }, 201
 
-    except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+    except Exception:
+        return {"error": "Unable to submit mock test"}, 500
