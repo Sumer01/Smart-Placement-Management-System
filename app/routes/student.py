@@ -1,3 +1,5 @@
+
+from bson import ObjectId
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -8,6 +10,16 @@ from app import extensions
 student_bp = Blueprint("student", __name__)
 
 
+def get_user_object_id():
+    """Convert the authenticated JWT identity to a MongoDB ObjectId."""
+    user_id = get_jwt_identity()
+
+    if not ObjectId.is_valid(user_id):
+        return None
+
+    return ObjectId(user_id)
+
+
 # =========================
 # CREATE STUDENT PROFILE
 # =========================
@@ -15,35 +27,41 @@ student_bp = Blueprint("student", __name__)
 @jwt_required()
 def create_profile():
     try:
+        user_object_id = get_user_object_id()
+
+        if user_object_id is None:
+            return {"error": "Invalid user ID"}, 400
+
         data = request.get_json()
 
         if not data:
-            return {
-                "error": "Request body is required"
-            }, 400
+            return {"error": "Request body is required"}, 400
 
-        user_id = get_jwt_identity()
-
-        # Check if profile already exists
         existing_profile = extensions.db.students.find_one({
-            "user_id": user_id
+            "user_id": user_object_id
         })
 
         if existing_profile:
-            return {
-                "error": "Student profile already exists"
-            }, 409
+            return {"error": "Student profile already exists"}, 409
 
         student_data = {
-            "user_id": user_id,
+            "user_id": user_object_id,
+            "name": "",
             "phone": data.get("phone", ""),
             "gender": data.get("gender", ""),
             "course": data.get("course", "MCA"),
-            "college": data.get("college", ""),
+            "degree": data.get("degree", data.get("course", "MCA")),
+            "department": data.get("department", "Computer Applications"),
+            "college": data.get("college", "CUSAT"),
             "semester": data.get("semester", ""),
             "cgpa": data.get("cgpa"),
+            "backlogs": data.get("backlogs", 0),
             "skills": data.get("skills", []),
-            "resume_url": data.get("resume_url", "")
+            "resume_name": data.get("resumeName", ""),
+            "resume_url": data.get("resume_url", ""),
+            "placement_status": "Not Placed",
+            "verified": 1,
+            "is_registered": 1
         }
 
         result = create_student_profile(student_data)
@@ -54,9 +72,8 @@ def create_profile():
         }, 201
 
     except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+        print(f"Create student profile error: {e}")
+        return {"error": "Unable to create student profile"}, 500
 
 
 # =========================
@@ -66,22 +83,20 @@ def create_profile():
 @jwt_required()
 def get_profile():
     try:
-        user_id = get_jwt_identity()
-        try:
-            user_id = int(user_id)
-        except (ValueError, TypeError):
-            pass
+        user_object_id = get_user_object_id()
+
+        if user_object_id is None:
+            return {"error": "Invalid user ID"}, 400
 
         profile = extensions.db.students.find_one({
-            "user_id": user_id
+            "user_id": user_object_id
         })
 
         if not profile:
-            return {
-                "error": "Student profile not found"
-            }, 404
+            return {"error": "Student profile not found"}, 404
 
         profile["_id"] = str(profile["_id"])
+        profile["user_id"] = str(profile["user_id"])
 
         return {
             "message": "Student profile fetched successfully",
@@ -89,9 +104,8 @@ def get_profile():
         }, 200
 
     except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+        print(f"Get student profile error: {e}")
+        return {"error": "Unable to fetch student profile"}, 500
 
 
 # =========================
@@ -101,66 +115,92 @@ def get_profile():
 @jwt_required()
 def update_profile():
     try:
+        user_object_id = get_user_object_id()
+
+        if user_object_id is None:
+            return {"error": "Invalid user ID"}, 400
+
         data = request.get_json()
 
         if not data:
-            return {
-                "error": "Request body is required"
-            }, 400
+            return {"error": "Request body is required"}, 400
 
-        user_id = get_jwt_identity()
-        try:
-            user_id = int(user_id)
-        except (ValueError, TypeError):
-            pass
+        existing_profile = extensions.db.students.find_one({
+            "user_id": user_object_id
+        })
 
-        # Update user name if provided
         new_name = data.get("fullName") or data.get("name")
+
         if new_name:
             extensions.db.users.update_one(
-                {"_id": user_id},
+                {"_id": user_object_id},
                 {"$set": {"name": new_name}}
             )
 
-        # Check if profile exists; if not, create it
-        existing_profile = extensions.db.students.find_one({
-            "user_id": user_id
-        })
+        def existing_value(key, default=None):
+            if existing_profile is None:
+                return default
+            return existing_profile.get(key, default)
+
+        cgpa_value = data.get("cgpa")
+        if cgpa_value is not None and str(cgpa_value).strip() != "":
+            cgpa_value = float(cgpa_value)
+        else:
+            cgpa_value = existing_value("cgpa", 0.0)
+
+        backlogs_value = data.get("backlogs")
+        if backlogs_value is not None and str(backlogs_value).strip() != "":
+            backlogs_value = int(backlogs_value)
+        else:
+            backlogs_value = existing_value("backlogs", 0)
 
         update_data = {
-            "user_id": user_id,
-            "name": new_name or (existing_profile.get("name") if existing_profile else ""),
-            "roll_no": data.get("rollNo") or data.get("roll_no") or (existing_profile.get("roll_no") if existing_profile else None),
-            "phone": data.get("phone") or (existing_profile.get("phone") if existing_profile else ""),
-            "gender": data.get("gender") if data.get("gender") is not None else (existing_profile.get("gender", "") if existing_profile else ""),
-            "location": data.get("location") or (existing_profile.get("location") if existing_profile else ""),
-            "degree": data.get("degree") or data.get("course") or (existing_profile.get("degree") if existing_profile else "MCA"),
-            "department": data.get("department") or (existing_profile.get("department") if existing_profile else "Computer Applications"),
-            "college": data.get("college") or (existing_profile.get("college") if existing_profile else "CUSAT"),
-            "semester": data.get("semester") or (existing_profile.get("semester") if existing_profile else ""),
-            "cgpa": float(data.get("cgpa")) if (data.get("cgpa") is not None and str(data.get("cgpa")).strip() != "") else (existing_profile.get("cgpa") if existing_profile else 0.0),
-            "backlogs": int(data.get("backlogs") or 0) if (existing_profile is None or "backlogs" in data) else existing_profile.get("backlogs", 0),
-            "skills": data.get("skills") if data.get("skills") is not None else (existing_profile.get("skills", []) if existing_profile else []),
-            "resume_name": data.get("resumeName") or (existing_profile.get("resume_name") if existing_profile else ""),
-            "resume_url": data.get("resumeName") or data.get("resume_url") or (existing_profile.get("resume_url") if existing_profile else "")
+            "user_id": user_object_id,
+            "name": new_name or existing_value("name", ""),
+            "roll_no": data.get("rollNo") or data.get("roll_no")
+                       or existing_value("roll_no"),
+            "phone": data.get("phone") if data.get("phone") is not None
+                     else existing_value("phone", ""),
+            "gender": data.get("gender") if data.get("gender") is not None
+                      else existing_value("gender", ""),
+            "location": data.get("location") if data.get("location") is not None
+                        else existing_value("location", ""),
+            "degree": data.get("degree") or data.get("course")
+                      or existing_value("degree", "MCA"),
+            "course": data.get("course") or existing_value("course", "MCA"),
+            "department": data.get("department")
+                          or existing_value("department", "Computer Applications"),
+            "college": data.get("college") or existing_value("college", "CUSAT"),
+            "semester": data.get("semester") if data.get("semester") is not None
+                        else existing_value("semester", ""),
+            "cgpa": cgpa_value,
+            "backlogs": backlogs_value,
+            "skills": data.get("skills") if data.get("skills") is not None
+                      else existing_value("skills", []),
+            "resume_name": data.get("resumeName")
+                           or existing_value("resume_name", ""),
+            "resume_url": data.get("resume_url")
+                          or existing_value("resume_url", "")
         }
 
         if not existing_profile:
             extensions.db.students.insert_one(update_data)
         else:
             extensions.db.students.update_one(
-                {"user_id": user_id},
+                {"user_id": user_object_id},
                 {"$set": update_data}
             )
 
         return {
-            "message": "Student profile updated successfully in MySQL database"
+            "message": "Student profile updated successfully"
         }, 200
 
+    except (ValueError, TypeError):
+        return {"error": "Invalid CGPA or backlogs value"}, 400
+
     except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+        print(f"Update student profile error: {e}")
+        return {"error": "Unable to update student profile"}, 500
 
 
 # =========================
@@ -170,22 +210,22 @@ def update_profile():
 @jwt_required()
 def delete_profile():
     try:
-        user_id = get_jwt_identity()
+        user_object_id = get_user_object_id()
+
+        if user_object_id is None:
+            return {"error": "Invalid user ID"}, 400
 
         result = extensions.db.students.delete_one({
-            "user_id": user_id
+            "user_id": user_object_id
         })
 
         if result.deleted_count == 0:
-            return {
-                "error": "Student profile not found"
-            }, 404
+            return {"error": "Student profile not found"}, 404
 
         return {
             "message": "Student profile deleted successfully"
         }, 200
 
     except Exception as e:
-        return {
-            "error": str(e)
-        }, 500
+        print(f"Delete student profile error: {e}")
+        return {"error": "Unable to delete student profile"}, 500
