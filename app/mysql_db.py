@@ -240,14 +240,15 @@ class MySQLDatabase:
         self.init_db_tables()
 
     def get_connection(self):
-        return pymysql.connect(
-            host=self.host,
-            port=self.port,
-            user=self.user,
-            password=self.password,
-            database=self.db_name,
-            autocommit=True
-        )
+    return pymysql.connect(
+        host=self.host,
+        port=self.port,
+        user=self.user,
+        password=self.password,
+        database=self.db_name,
+        autocommit=True,
+        ssl={"ssl": True}
+    )
 
     def init_db_tables(self):
         # Connect to MySQL server without db selected to create database if not exists
@@ -256,7 +257,8 @@ class MySQLDatabase:
             port=self.port,
             user=self.user,
             password=self.password,
-            autocommit=True
+            autocommit=True,
+            ssl={"ssl": True}
         )
         try:
             with conn.cursor() as cursor:
