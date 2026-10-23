@@ -239,16 +239,18 @@ class MySQLDatabase:
         self.db_name = db_name
         self.init_db_tables()
 
+    
     def get_connection(self):
-    return pymysql.connect(
-        host=self.host,
-        port=self.port,
-        user=self.user,
-        password=self.password,
-        database=self.db_name,
-        autocommit=True,
-        ssl={"ssl": True}
-    )
+        return pymysql.connect(
+            host=self.host,
+            port=self.port,
+            user=self.user,
+            password=self.password,
+            database=self.db_name,
+            autocommit=True,
+            ssl={"ssl": True}
+        )
+
 
     def init_db_tables(self):
         # Connect to MySQL server without db selected to create database if not exists
